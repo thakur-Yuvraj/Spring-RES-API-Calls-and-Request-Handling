@@ -18,18 +18,7 @@ public class GreetingController {
         this.greetingService = greetingService;
     }
 
-    // curl.exe -X GET http://localhost:8080/greeting/simple
-    @GetMapping("/simple")
-    public Map<String, String> getSimpleService() {
-        String message = greetingService.getSimpleGreeting();
-        return Map.of("message", message);
-    }
 
-    // curl.exe -X GET http://localhost:8080/greeting
-    @GetMapping
-    public Map<String, String> getGreeting() {
-        return Map.of("message", "Hello from GET");
-    }
 
     // curl.exe -X POST http://localhost:8080/greeting -H "Content-Type: application/json" -d "{\"name\":\"John\"}"
     @PostMapping
@@ -46,5 +35,25 @@ public class GreetingController {
     @DeleteMapping
     public Map<String, String> deleteGreeting(@RequestParam(value = "id", required = false) String id) {
         return Map.of("message", "Hello from DELETE", "deletedId", id != null ? id : "none");
+    }
+
+    // curl.exe -X GET http://localhost:8080/greeting
+    @GetMapping
+    public Map<String, String> getGreeting() {
+        return Map.of("message", "Hello from GET");
+    }
+
+    // curl.exe -X GET http://localhost:8080/greeting/simple
+    @GetMapping("/simple")
+    public Map<String, String> getSimpleService() {
+        String greet = greetingService.getSimpleGreeting();
+        return Map.of("message", greet);
+    }
+
+    // curl.exe -X GET "http://localhost:8080/greeting/personalized?firstName=John&lastName=Doe"
+    @GetMapping("/name")
+    public Map<String, String> getGreetByNameService(@RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName) {
+        String msg = greetingService.getGreetingByName(firstName, lastName);
+        return Map.of("message", msg);
     }
 }
