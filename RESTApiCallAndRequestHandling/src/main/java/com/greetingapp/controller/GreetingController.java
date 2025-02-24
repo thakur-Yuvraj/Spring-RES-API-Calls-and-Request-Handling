@@ -81,4 +81,16 @@ public class GreetingController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+    // curl -X PUT -H "Content-Type: application/json" -d "{\"message\":\"Updated Hello World\"}" http://localhost:8080/api/greetings/1
+    @PutMapping("/change/{id}")
+    public ResponseEntity<Greeting> updateGreeting(@PathVariable long id, @RequestBody Greeting updatedGreet) {
+        try {
+            Greeting greeting = greetingService.update(id, updatedGreet.getMessage());
+            return ResponseEntity.ok(greeting);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
 }
