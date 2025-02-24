@@ -1,6 +1,8 @@
 package com.greetingapp.controller;
 
 
+import com.greetingapp.service.GreetingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -9,7 +11,21 @@ import java.util.Map;
 @RequestMapping("/greeting")
 public class GreetingController {
 
-//    curl.exe -X GET http://localhost:8080/greeting
+    private final GreetingService greetingService;
+
+    @Autowired
+    public GreetingController(GreetingService greetingService) {
+        this.greetingService = greetingService;
+    }
+
+    // curl.exe -X GET http://localhost:8080/greeting/simple
+    @GetMapping("/simple")
+    public Map<String, String> getSimpleService() {
+        String message = greetingService.getSimpleGreeting();
+        return Map.of("message", message);
+    }
+
+    // curl.exe -X GET http://localhost:8080/greeting
     @GetMapping
     public Map<String, String> getGreeting() {
         return Map.of("message", "Hello from GET");
