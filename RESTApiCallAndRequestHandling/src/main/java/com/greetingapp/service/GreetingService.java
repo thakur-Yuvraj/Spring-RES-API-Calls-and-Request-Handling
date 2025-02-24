@@ -31,5 +31,9 @@ public class GreetingService {
         greetingRepository.save(new Greeting(msg));
         return msg;
     }
+
+    public Greeting findGreetingById(long id) {
+        return greetingRepository.findById(id).orElseThrow(() -> new RuntimeException("Greeting not found by id : "+ id));
+    }
 }
 

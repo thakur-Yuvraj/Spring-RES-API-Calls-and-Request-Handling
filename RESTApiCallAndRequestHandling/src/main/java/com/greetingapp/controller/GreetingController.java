@@ -5,6 +5,8 @@ import com.greetingapp.model.Greeting;
 import com.greetingapp.repository.GreetingRepository;
 import com.greetingapp.service.GreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -66,5 +68,15 @@ public class GreetingController {
     @GetMapping("/all")
     public List<Greeting> getAllGreeting() {
         return greetingRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Greeting> getGreeting(@PathVariable long id) {
+        try {
+            Greeting greeting = greetingService.findGreetingById(id);
+            return ResponseEntity.ok(greeting);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }
