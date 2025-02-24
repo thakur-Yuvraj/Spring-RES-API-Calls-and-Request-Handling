@@ -1,16 +1,21 @@
 package com.greetingapp.controller;
 
 
+import com.greetingapp.model.Greeting;
+import com.greetingapp.repository.GreetingRepository;
 import com.greetingapp.service.GreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/greeting")
 public class GreetingController {
 
+    @Autowired
+    private GreetingRepository greetingRepository;
     private final GreetingService greetingService;
 
     @Autowired
@@ -55,5 +60,11 @@ public class GreetingController {
     public Map<String, String> getGreetByNameService(@RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName) {
         String msg = greetingService.getGreetingByName(firstName, lastName);
         return Map.of("message", msg);
+    }
+
+    // curl.exe -X GET "http://localhost:8080/greeting/all"
+    @GetMapping("/all")
+    public List<Greeting> getAllGreeting() {
+        return greetingRepository.findAll();
     }
 }

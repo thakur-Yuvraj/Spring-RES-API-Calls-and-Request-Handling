@@ -1,25 +1,35 @@
 package com.greetingapp.service;
+import com.greetingapp.model.Greeting;
+import com.greetingapp.repository.GreetingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class GreetingService {
 
+    @Autowired
+    GreetingRepository greetingRepository;
+
     public String getSimpleGreeting() {
             return "Hello Spring Boot greeting";
     }
 
     public String getGreetingByName(String firstName, String lastName) {
+        String msg;
         if (firstName != null && lastName != null) {
-            return "Hello, "+ firstName + " " + lastName;
-        }
+            msg = "Hello, "+ firstName + " " + lastName;
+        }else
         if (firstName != null) {
-            return "Hello, "+ firstName;
-        }
+            msg = "Hello, "+ firstName;
+        }else
         if (lastName != null) {
-            return "Hello, "+ lastName;
-        }
-        return "Hello, nameless";
+            msg = "Hello, "+ lastName;
+        }else msg = "Hello, nameless";
+
+        // save the greeting repository
+        greetingRepository.save(new Greeting(msg));
+        return msg;
     }
 }
 
