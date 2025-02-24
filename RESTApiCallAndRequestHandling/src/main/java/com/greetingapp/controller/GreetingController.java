@@ -67,9 +67,11 @@ public class GreetingController {
     // curl.exe -X GET "http://localhost:8080/greeting/all"
     @GetMapping("/all")
     public List<Greeting> getAllGreeting() {
-        return greetingRepository.findAll();
+
+        return greetingService.getAllGreeting();
     }
 
+    // curl.exe -X GET "http://localhost:8080/greeting/1"
     @GetMapping("/{id}")
     public ResponseEntity<Greeting> getGreeting(@PathVariable long id) {
         try {
