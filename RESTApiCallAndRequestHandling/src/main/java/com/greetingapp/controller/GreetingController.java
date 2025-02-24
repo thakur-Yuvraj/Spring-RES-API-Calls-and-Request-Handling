@@ -93,4 +93,16 @@ public class GreetingController {
         }
     }
 
+    // curl -X DELETE http://localhost:8080/api/greetings/1
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteGreeting(@PathVariable(value = "id") long id) {
+        try {
+            greetingService.deleteGreeting(id);
+            return ResponseEntity.ok("Greeting with ID " + id + " has been deleted.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+
 }
